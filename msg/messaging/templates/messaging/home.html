@@ -1,0 +1,262 @@
+{% extends "messaging/navbar.html" %}
+{% load static %}
+{% block content %}
+<script src="https://unpkg.com/htmx.org@2.0.1"></script>
+<script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/ws.js"></script>
+<link href="{% static 'messaging/css/home.css'%}" rel="stylesheet">
+<div class="main_page_container">
+    <div class="message-container">
+        <div id="sidebar" class="sidebar">
+            <button id="toggleBtn" class="toggle-btn">☰</button>
+            <div class="sidebar-search">
+
+
+                <input type="text" placeholder="Search..." id="search-input" class="search-input">
+            </div>
+            <ul class="sidebar-list" id="userList">
+
+
+            </ul>
+            <div class="new_chat" id="new_chat">
+                <!-- Button to open the popup -->
+                <button id="openChatPopup" class="newchatbutton">
+                    
+                </button>
+                
+            </div>
+            <div id="chatPopup" class="popup">
+                <div class="popup-content">
+                    
+                    <span class="close-btn" id="closePopup">&times;</span>
+                    <div class="popup-content-container">
+                    
+                    <div class="popup-content-container-text">Search Users</div>
+                </div>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search users...">
+        
+                    <ul id="userListPopup" class="user-list">
+                        <!-- User list items will be populated here -->
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="user-message-info">
+        <div class="all_messages" id="messageContainer">
+            <!-- Messages will be displayed here -->
+
+        </div>
+        <div class="message-sender mt-3">
+            <form id="messageForm" class="w-full input-group" enctype="multipart/form-data">
+                <textarea id="messageInput" class="form-control" placeholder="Type your message..." required
+                    style="resize: none;"></textarea>
+                <div class="input-group-append">
+                    <div class="dropup">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="attachmentDropdown"
+                            aria-haspopup="true" aria-expanded="false" onclick="toggleDropdown();">
+                            Attach
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-up" aria-labelledby="attachmentDropdown"
+                            id="dropdownMenu">
+
+                            <button class="dropdown-item" type="button"
+                                onclick="document.getElementById('photoInput').click();">Send Photo</button>
+                            <button class="dropdown-item" type="button"
+                                onclick="document.getElementById('fileInput').click();">Attach Files</button>
+                            <button class="dropdown-item" type="button"
+                                onclick="document.getElementById('videoInput').click();">Send Video</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+
+                <input type="file" id="photoInput" accept="image/*" style="display:none;">
+                <input type="file" id="fileInput" multiple accept="*/*" style="display:none;">
+                <input type="file" id="videoInput" accept="video/*" style="display:none;">
+            </form>
+            
+
+        </div>
+        <img id="imagePreview" src="" alt="Image Preview">
+    </div>
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div id="caption"></div>
+        <a id="downloadLink" class="download-button" download>
+            <i class="fas fa-download"></i>
+        </a>
+    </div>
+    
+</div>
+<footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zoom.js/0.4.0/zoom.min.js"></script>
+    <script src="{% static 'messaging\js\index.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pica/8.1.1/pica.min.js"></script>
+
+    <script>
+    const maxWidth = 1920;
+    const maxHeight = 1080;
+
+    async function compressImage(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    let { width, height } = img;
+
+                    // Calculate new dimensions
+                    if (width > maxWidth) {
+                        height *= maxWidth / width;
+                        width = maxWidth;
+                    }
+                    if (height > maxHeight) {
+                        width *= maxHeight / height;
+                        height = maxHeight;
+                    }
+
+                    // Set canvas size and draw image
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Convert canvas to Blob and resolve with base64 data URL
+                    canvas.toBlob(blob => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => resolve(reader.result);
+                        reader.readAsDataURL(blob);
+                    }, 'image/jpeg', 0.7);
+                };
+                img.src = event.target.result;
+            };
+
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        const username = '{{ request.user.username }}';
+        const socket = new WebSocket(`ws://${window.location.host}/ws/messages/${username}/`);
+
+        socket.addEventListener('open', () => console.log('WebSocket is connected.'));
+        socket.addEventListener('close', () => console.log('WebSocket is closed.'));
+        socket.addEventListener('error', (e) => console.error('WebSocket error:', e));
+        document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        if (!socket || socket.readyState === WebSocket.CLOSED) {
+            const socket = new WebSocket(`ws://${window.location.host}/ws/messages/${username}/`);
+        }
+    }
+});
+        function updateMessageContainer(message, compressedImageData, isSender) {
+            const messageContainer = document.getElementById('messageContainer');
+            const messageElement = document.createElement('div');
+            const imageHTML = compressedImageData ? `
+                <div class='message-image'>
+                    <img src="${compressedImageData}" alt="Message Image" onclick="openModal('${compressedImageData}','${message}')">
+                </div>` : '';
+
+            messageElement.className = isSender ? 'receiver message':'sender message' ;
+            messageElement.innerHTML = `
+                <div class='message-part'>
+                    <div class='message-content'>${message}</div>
+                    ${imageHTML}
+                </div>
+                <div class='message-timestamp'>
+                    ${new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).replace(',', '')}
+                </div>
+            `;
+            messageContainer.appendChild(messageElement);
+        }
+
+        socket.addEventListener('message', (e) => {
+            updateUserList()
+            const container = document.getElementById('messageContainer');
+            const atBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 50;
+            console.log(atBottom)
+            const { message, sender, image } = JSON.parse(e.data);
+            if (sender === receiver_msg) {
+                updateMessageContainer(message, image, false);
+            }
+
+            if (atBottom==true) {container.scrollTop = container.scrollHeight;}
+            
+            const userElement = document.getElementById(`user-${sender}`);
+            if (userElement) {
+                const parent = userElement.parentElement;
+                parent.removeChild(userElement);
+                parent.insertBefore(userElement, parent.firstChild);
+            }
+        });
+
+        async function sendMessage(message) {
+            if (receiver_msg) {
+                const photoInput = document.getElementById('photoInput');
+                const photo = photoInput.files[0];
+
+                if (photo) {
+                    try {
+                        const compressedData = await compressImage(photo);
+                        socket.send(JSON.stringify({ message, sender: username, receiver: receiver_msg, image: compressedData }));
+                        updateMessageContainer(message, compressedData, true);
+                    } catch (error) {
+                        console.error('Error compressing image:', error);
+                    }
+                } else {
+                    socket.send(JSON.stringify({ message, sender: username, receiver: receiver_msg }));
+                    updateMessageContainer(message, null, true);
+                }
+
+                const userElement = document.getElementById(`user-${receiver_msg}`);
+                if (userElement) {
+                    const parent = userElement.parentElement;
+                    parent.removeChild(userElement);
+                    parent.insertBefore(userElement, parent.firstChild);
+                }
+                const container = document.getElementById('messageContainer');
+                container.style.scrollBehavior = 'smooth';
+                container.scrollTop = container.scrollHeight;
+                container.style.scrollBehavior = 'auto';
+            }
+        }
+
+        document.getElementById('messageForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const message = document.getElementById('messageInput').value.trim();
+            if (message) {
+                sendMessage(message);
+                document.getElementById('messageInput').value = '';
+            }
+
+            if (length_of_messages === 0) {
+                updateUserList();
+                const item = document.getElementById(`user-${receiver_msg}`);
+                if (activeItem) activeItem.classList.remove('active');
+                if (item) {
+                    item.classList.add('active');
+                    activeItem = item;
+                }
+            }
+        });
+    });
+</script>
+
+</footer>
+
+
+
+
+
+
+{% endblock %}

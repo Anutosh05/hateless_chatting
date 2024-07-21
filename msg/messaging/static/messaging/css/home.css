@@ -1,0 +1,575 @@
+.content {
+    height: 100%;
+    bottom: 0;
+
+}
+
+footer {
+    display: none;
+}
+
+.main_page_container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: white;
+    height: 100%;
+}
+
+.message-container {
+    display: flex;
+    background-color: #f4f4f4;
+    /* Sidebar background color */
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    /* Optional shadow for sidebar */
+    overflow-y: auto;
+    /* Enable vertical scrolling if needed */
+    height: 100%;
+
+}
+
+.user-message-info {
+    display: flex;
+    flex: 1;
+    /* Take up the remaining space */
+    flex-direction: column;
+    padding: 10px;
+}
+
+.all_messages {
+
+    display: flex;
+    flex: 1;
+    /* Take up the remaining space */
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+    overflow-y: auto;
+    /* Enable vertical scrolling if needed */
+    background-color: #fff;
+    /* Messages background color */
+    color: rgb(255, 255, 255);
+    /* Text color for messages */
+}
+
+
+.sidebar {
+    z-index: 1;
+    width: 300px;
+    position: relative;
+    /* Default width */
+    background-color: #194744;
+    position: fixed;
+    left: 0;
+    transition: width 0.3s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    top: 60px;
+    /* Adjust this value to match the height of your navbar */
+    height: calc(100% - 60px);
+    /* Adjust this value to match the height of your navbar */
+}
+
+.sidebar.collapsed {
+    width: 80px !important;
+    /* Collapsed width */
+}
+
+.sidebar-resizer {
+    width: 5px;
+    background-color: #194744;
+    cursor: ew-resize;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.sidebar .toggle-btn {
+    background-color: #194744;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s;
+}
+
+.sidebar .toggle-btn:hover {
+    background-color: #455a64;
+}
+
+.sidebar .sidebar-search {
+    padding: 10px;
+}
+
+.sidebar .search-input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+}
+
+.sidebar .sidebar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+    /* Ensure the list takes up available space */
+    overflow-y: auto;
+}
+
+.sidebar .sidebar-list li {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 3px;
+    margin-left: 10;
+    color: #ecf0f1;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+
+.sidebar .sidebar-list li {
+    transition: all 0.3s ease;
+    /* Smooth transition */
+}
+
+.sidebar .sidebar-list li.active {
+    background: linear-gradient(to right, rgb(23, 118, 85), #148c3e);
+
+    /* Active color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Shadow for 3D effect */
+    transform: translateY(-2px);
+    /* Lift effect */
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.sidebar .sidebar-list li.active:hover {
+    background-color: rgb(23, 118, 85);
+    /* Active color on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    /* Deeper shadow on hover */
+    transform: translateY(-4px);
+    /* More lift on hover */
+    border-radius: 5px;
+}
+
+.sidebar .sidebar-list li:hover {
+    background-color: rgba(74, 190, 115, 0.1);
+    /* Hover color */
+}
+
+
+
+.sidebar .sidebar-list .icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+/* Hide item names when collapsed */
+.sidebar.collapsed .item-name {
+    display: none;
+}
+
+/* Additional CSS for hiding item names */
+.sidebar.icon-only .item-name {
+    display: none;
+}
+
+/* Ensure the icons are still visible */
+.sidebar .icon {
+    display: inline-block;
+}
+
+
+/* -------------------------------------------------------------------------------------- */
+.sender {
+    display: flex;
+    align-items: baseline;
+    justify-content: baseline;
+    background-color: rgb(22, 82, 54);
+    background: linear-gradient(to right, #194744, rgb(22, 82, 54));
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    padding: 15px;
+    padding-bottom: 5px;
+    margin: 10px;
+    margin-left: 10px;
+    max-width: 60%;
+    text-align: justify;
+    /* Or set this to 700px if desired */
+    max-width: min(80%, 600px);
+
+
+}
+
+.receiver {
+    display: flex;
+    align-self: flex-end;
+    align-items: baseline;
+    justify-content: baseline;
+    background: linear-gradient(to right, rgb(40, 98, 120), rgb(15, 58, 74));
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    padding: 15px;
+    padding-bottom: 5px;
+    margin: 10px;
+    text-align: justify;
+    max-width: min(80%, 600px);
+    /* Or set this to 700px if desired */
+
+}
+
+.message-timestamp {
+    font-size: 0.7em;
+    margin-left: 20px;
+    bottom: 0;
+    align-self: flex-end;
+    padding: 5px;
+}
+
+.sender .message-timestamp {
+
+    color: #91d690;
+}
+
+.receiver .message-timestamp {
+    color: #50aebc;
+}
+
+.sidebar.collapsed .sidebar-search .search-input::placeholder {
+    font-size: small;
+
+}
+
+.sidebar.collapsed .sidebar-search .search-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+.message-sender {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    position: sticky;
+}
+
+.dropdown-menu {
+    right: 0;
+    /* Align the right side of the dropdown with the button */
+    left: auto;
+    /* Ensure it doesn't push to the left */
+}
+
+/* Custom CSS to make the dropdown menu appear upwards */
+.dropdown-menu-up {
+    bottom: 100%;
+    top: auto;
+    margin-bottom: 0.125rem;
+}
+
+.message-part {
+    display: flex;
+    flex-direction: column;
+}
+
+.message-image {
+    max-width: 100%;
+    align-self: center;
+}
+
+.message-content {
+    font-size: 0.9em;
+}
+
+.message-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    /* Stay in place */
+    z-index: 100000000;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.895);
+    /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.modal-content {
+    max-width: 90%;
+    /* Adjust as needed */
+    max-height: 80%;
+    /* Adjust as needed */
+    height: auto;
+    width: auto;
+    margin: auto;
+}
+
+/* Caption of Modal Image */
+#caption {
+    margin: auto;
+    display: block;
+    text-align: center;
+    color: #ffffff;
+    padding: 10px 0;
+    width: 60%;
+    max-height: 7em;
+    overflow-y: auto;
+
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#caption {
+    margin: auto;
+    display: block;
+    text-align: center;
+    color: #ffffff;
+    padding: 10px 0;
+    width: 60%;
+    min-width: 300px;
+    max-height: 10em;
+    /* Approx. 5 lines */
+    overflow-y: auto;
+    position: relative;
+    /* For the pseudo-elements */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+/* Hide the scrollbar */
+#caption::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+/* Apply a fade effect at the top and bottom */
+#caption::before,
+#caption::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1em;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    pointer-events: none;
+}
+
+#caption::before {
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+}
+
+
+/* Style for the popup */
+.popup {
+    /* Hidden by default */
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 95%;
+    margin: auto;
+    right: 0;
+    left: 0;
+    height: 50%;
+    bottom:0;
+    overflow: auto;
+    opacity: 0;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    position: absolute; /* Position relative to the parent container */
+    z-index: -100;
+    transform: translateX(-80%) translateY(80%); /* Start from bottom-left */
+    transition: opacity 0.2s ease, transform 0.3s ease; /* Animation duration and timing */
+}
+
+/* Popup visible state */
+.popup.show {
+    z-index: 100;
+    opacity: 1; /* Fully visible */
+    transform: translateX(0) translateY(0); /* Move to final position */
+}
+
+
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    /* box-shadow: 0 4px 8px rgba(5, 73, 20, 0.651), inset 0 -3px 5px rgb(12, 81, 45); */
+    transition: box-shadow 0.3s; 
+    border: 2px solid rgb(25, 97, 46);
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid #888;
+    width: 98%;
+    height: 98%;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    text-align: center;
+    position: relative;
+}
+.popup-content-container{
+    margin-top: 15px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.popup-content-container-text{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    font-weight: 500;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.close-btn {
+    margin:10px;
+    color: #aaa;
+    font-size: 28px;
+    height: 30px;
+    width: 30px;
+    font-weight: bold;
+    position: absolute; /* Position it absolutely within the parent */
+    right: 0; /* Align to the right edge */
+    top: 0; /* Align to the top edge */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    z-index: 1000; /* Ensure it overlays other elements */
+    border-radius: 5px; /* Make it circular */
+    background-color: #fff;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.user-list {
+    list-style-type: none;
+    padding: 0;
+    background-color: #ffffffec;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.user-list li {
+    padding: 8px;
+    font-size: 1.1em;
+    font-weight: 400;
+    text-align: left;
+    cursor: pointer;
+}
+
+.user-list li:hover {
+    background-color: #63c3dd;
+    
+    border-radius: 10PX ;
+}
+
+#imagePreview {
+    display: none;
+    max-width: 100%;
+    margin-top: 10px;
+    position: absolute; /* Ensure it’s not affected by other elements */
+    z-index: 10; /* Ensure it's above other elements */
+}
+.new_chat{
+    display: flex;
+}
+.newchatbutton {
+    display: flex;
+    font-size: 1.2em; /* Adjust font size */
+    padding: 10px 20px;
+    border: none;
+    background-color: #09250a71; /* Base background color */
+    color: white;
+    cursor: pointer;
+    display: flex;
+    margin: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.593), inset 0 -3px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s; /* Optional transition for shadows */
+    border: 2px solid rgb(25, 97, 46);
+}
+.newchatbutton:hover{
+    display: flex;
+    font-size: 1.2em; /* Adjust font size */
+    padding: 10px 20px;
+    border: none;
+    background-color: #11380c; /* Base background color */
+    color: white;
+    cursor: pointer;
+    display: flex;
+    margin: 10px;
+    
+    margin-bottom: 19px;
+    align-items: center;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.593), inset 0 -3px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s; /* Optional transition for shadows */
+    border: 2px solid rgb(25, 97, 46);
+}

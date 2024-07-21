@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="{% static 'messaging/images/icon/main_icon.ico' %} ">
+  <title>chatapp</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+  
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link href="{% static 'messaging/css/styles.css'%}" rel="stylesheet">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary navlink">
+    <div class="container-fluid navlink">
+      <a class="navbar-brand navlink" href="#" class="main_icon">
+        <img src="{% static 'messaging/images/icon/main_icon.jpeg' %}" class="main_icon_img navlink">
+
+      </a>
+      <button class="navbar-toggler navlink" id="toggleBtn1" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon navlink"></span>
+      </button>
+      <div class="collapse navbar-collapse navlink" id="navbarNavDropdown">
+        <ul class="navbar-nav me-auto navlink">
+          <li class="nav-item navlink">
+            <a class="nav-link navlink" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item navlink">
+            <a class="nav-link navlink" href="#">Features</a>
+          </li>
+          <li class="nav-item navlink">
+            <a class="nav-link navlink" href="#">Pricing</a>
+          </li>
+          <li class="nav-item dropdown navlink">
+            <a class="nav-link dropdown-toggle navlink" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Dropdown link
+            </a>
+            <ul class="dropdown-menu navlink">
+              <li><a class="dropdown-item navlink" href="#">Action</a></li>
+              <li><a class="dropdown-item navlink" href="#">Another action</a></li>
+              <li><a class="dropdown-item navlink" href="#">Something else here</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        {% if user.is_authenticated %}
+        <div class="navbar-text navlink">
+          <ul class="nav navlink">
+            <li class="nav-item dropdown navlink">
+              <a class="nav-link dropdown-toggle navlink" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                {{ request.user }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end cx text-center navlink">
+                <li>
+                  {% if user.profile.profile_photo %}
+                  <img src="{{ user.profile.profile_photo.url }}" class="profile_picture navlink">
+                  {% else %}
+                  <img src="{% static 'messaging/images/icon/default-user-image.png' %}"
+                    class="profile_picture navlink">
+                  {% endif %}
+                </li>
+                <li><a class="dropdown-item text-center navlink" href="/messaging/logout">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+
+
+  <div class="content">
+    {% block content %}
+    {% endblock %} </div>
+
+</body>
+
+<footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    Click Me
+  </button>
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const dropdownMenu = document.querySelector('.cx'); // Adjust selector to match your dropdown menu element
+
+      function adjustDropdownClass() {
+        const navbarToggle = document.querySelector('.navbar-toggler');
+        const isNavbarExpanded = window.getComputedStyle(navbarToggle).getPropertyValue('display') === 'none';
+        if (!isNavbarExpanded) {
+          dropdownMenu.classList.remove('dropdown-menu-end');
+        } else {
+          dropdownMenu.classList.add('dropdown-menu-end');
+        }
+      }
+
+      // Initial adjustment on page load
+      adjustDropdownClass();
+
+      // Listen for window resize events
+      window.addEventListener('resize', adjustDropdownClass);
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+      const dropdownMenu = document.querySelector('.cx'); // Adjust selector to match your dropdown menu element
+      const content = document.querySelector('.content');
+      const navbar = document.querySelector('.navbar');
+
+      function adjustContentPadding() {
+        const navbarHeight = navbar.offsetHeight;
+        content.style.paddingTop = navbarHeight + 'px';
+      }
+
+      // Initial adjustment on page load
+      adjustContentPadding();
+
+      // Listen for window resize events (in case navbar height changes dynamically)
+      window.addEventListener('resize', adjustContentPadding);
+      var nav = document.getElementById('toggleBtn1');
+
+      nav.addEventListener('click', function () {
+        // Start adjusting the sidebar top immediately
+        adjustContentPadding();
+
+        // Set an interval to call adjustSidebarTop() every 100 milliseconds (adjust as needed)
+        intervalId = setInterval(function () {
+          adjustContentPadding();
+        }, 10);
+
+        // Clear the interval after approximately 1 second (1000 milliseconds)
+        setTimeout(function () {
+          clearInterval(intervalId);
+        }, 1000);
+      });
+    });
+
+  </script>
+
+
+
+
+</footer>
+
+</html>

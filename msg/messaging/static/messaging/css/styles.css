@@ -1,0 +1,305 @@
+/* Navbar styling */
+.main_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    /* Ensure navbar is above other elements */
+    background-color: rgb(39, 67, 67) !important;
+    /* Dark background */
+    color: white !important;
+    /* White text */
+}
+
+/* Body styling */
+
+
+/* Additional styling for specific navbar elements */
+.navbar.a {
+    color: azure;
+    /* Change text color */
+}
+
+/* Styling for navbar links */
+.navbar li a {
+    color: white;
+    /* White text */
+    text-decoration: none;
+    /* Remove underline */
+    padding: 10px 15px;
+    /* Adjust padding */
+}
+
+/* Hover effect for navbar links */
+.navbar li a:hover,
+.navbar-nav li a:focus {
+    color: rgb(90, 201, 79);
+    /* Light green on hover/focus */
+}
+
+/* Dropdown menu link styling */
+.dropdown-menu li a,
+.dropdown-menu li a:focus {
+    color: black;
+    /* Black text */
+}
+
+.profile_picture {
+    width: 3em;
+    border-radius: 40%;
+}
+
+/* Styling for navbar toggler icon */
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><path stroke='rgb(90, 201, 79)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+    display: inline-block;
+    /* Inline block display */
+    padding: 0px;
+    /* Adjust padding */
+}
+
+/* Styling for the main icon image in navbar brand */
+.main_icon_img {
+    width: 50px;
+    /* Set width */
+    height: auto;
+    /* Maintain aspect ratio */
+    border-radius: 0%;
+    /* Optional: Adjust border radius */
+}
+
+/* Navbar collapse transition */
+.navbar-collapse {
+    transition: height 0.25s ease;
+    /* Smooth height transition */
+}
+
+/* Keyframes for dropdown animation */
+@keyframes dropdown-scale-in {
+    0% {
+        transform: scale(0);
+        /* Start with no scale */
+    }
+
+    100% {
+        transform: scale(1);
+        /* Scale to full size */
+    }
+}
+
+@keyframes dropdown-scale-out {
+    0% {
+        transform: scale(1);
+        /* Start at full size */
+    }
+
+    100% {
+        transform: scale(0);
+        /* Scale down to nothing */
+    }
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    width: min-content !important;
+    /* Adjust to fit content */
+    transform-origin: top;
+    /* Optional: Set transform origin */
+    display: none;
+    /* Initially hidden */
+}
+
+
+/* Show dropdown menu */
+.dropdown-menu.show {
+    display: block;
+    animation: dropdown-scale-in 0.1s forwards;
+    /* Scale in animation */
+}
+
+/* Hide dropdown menu */
+.dropdown-menu.hiding {
+    animation: dropdown-scale-out 0.1s forwards;
+    /* Scale out animation */
+    display: block;
+    /* Maintain display during animation */
+}
+
+/* Additional styling for dropdown toggle */
+.dropdown-toggle {
+    text-transform: capitalize !important;
+    /* Capitalize toggle text */
+}
+
+/* Focus styling for specific element */
+.c1:focus {
+    background-color: rgba(89, 201, 79, 0.315) !important;
+    /* Semi-transparent background */
+    border-radius: 10%;
+    /* Rounded corners */
+    outline: none !important;
+    /* Remove outline */
+}
+
+
+
+
+
+
+
+/* static/css/custom.css */
+.form-custom {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ced4da;
+    color: white;
+    border-radius: 0.5rem;
+    background-color: #194744;
+}
+
+.custom-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-control {}
+
+.custom-username:focus,
+.custom-email:focus,
+.custom-password1:focus,
+.custom-password2:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
+
+.btn-primary.custom-submit {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 0.25rem;
+}
+
+.btn-primary.custom-submit:hover {
+    background-color: #0056b3;
+}
+
+.custom-error {
+    color: #dc3545;
+    font-size: 0.875em;
+}
+
+
+
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* width: 40%; */
+    margin: auto;
+    /* color: white; */
+    /* background: linear-gradient(to bottom, rgb(238, 243, 205),rgb(209, 243, 229)); Peach */
+
+}
+
+.card-title {
+    margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.register {
+    background-color: rgb(90, 201, 79);
+    border-color: rgb(90, 201, 79);
+}
+
+.register:hover {
+    background-color: rgb(68, 169, 58)
+}
+
+a {
+    color: #007bff;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+
+
+
+/* ------------home styles------------------- */
+html,
+body {
+    height: 100%;
+    /* Ensure body takes full height */
+    margin: 0;
+    /* Remove default margin */
+    background-color: rgb(6, 46, 28);
+}
+
+
+#caption::after {
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+
+#caption:scrolling::before {
+    background: none;
+}
+
+/* Show the fade effect at the top and bottom */
+#caption:scrolling::after {
+    background: none;
+}
+
+#caption.scrolling::before {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+}
+
+#caption.scrolling::after {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+/* Download button styling */
+.download-button {
+    display: block;
+    text-align: center;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    align-self: self-end;
+}
+
+.download-button:hover {
+    background-color: #f1f1f1;
+}
+
+    
